@@ -1,0 +1,3 @@
+/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/edit_cache.dir
+/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/rebuild_cache.dir
+/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/ProcessImage.dir
