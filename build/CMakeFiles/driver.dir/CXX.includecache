@@ -6,10 +6,12 @@
 
 #IncludeRegexTransform: 
 
-/media/siddu/data1001/Work/OCR-preprocessing/main.cpp
+/media/siddu/data1001/Work/OCR-preprocessing/driver.cpp
 iostream
 -
 string
+-
+vector
 -
 opencv2/core.hpp
 -

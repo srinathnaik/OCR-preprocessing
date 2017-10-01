@@ -60,39 +60,187 @@ CMAKE_SOURCE_DIR = /media/siddu/data1001/Work/OCR-preprocessing/build
 CMAKE_BINARY_DIR = /media/siddu/data1001/Work/OCR-preprocessing/build
 
 #=============================================================================
-# Target rules for target CMakeFiles/ProcessImage.dir
+# Target rules for target CMakeFiles/general.dir
 
 # All Build rule for target.
-CMakeFiles/ProcessImage.dir/all:
-	$(MAKE) -f CMakeFiles/ProcessImage.dir/build.make CMakeFiles/ProcessImage.dir/depend
-	$(MAKE) -f CMakeFiles/ProcessImage.dir/build.make CMakeFiles/ProcessImage.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles --progress-num=1,2 "Built target ProcessImage"
-.PHONY : CMakeFiles/ProcessImage.dir/all
+CMakeFiles/general.dir/all:
+	$(MAKE) -f CMakeFiles/general.dir/build.make CMakeFiles/general.dir/depend
+	$(MAKE) -f CMakeFiles/general.dir/build.make CMakeFiles/general.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles --progress-num=7,8 "Built target general"
+.PHONY : CMakeFiles/general.dir/all
 
 # Include target in all.
-all: CMakeFiles/ProcessImage.dir/all
+all: CMakeFiles/general.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/ProcessImage.dir/rule: cmake_check_build_system
+CMakeFiles/general.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ProcessImage.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/general.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 0
-.PHONY : CMakeFiles/ProcessImage.dir/rule
+.PHONY : CMakeFiles/general.dir/rule
 
 # Convenience name for target.
-ProcessImage: CMakeFiles/ProcessImage.dir/rule
+general: CMakeFiles/general.dir/rule
 
-.PHONY : ProcessImage
-
-# clean rule for target.
-CMakeFiles/ProcessImage.dir/clean:
-	$(MAKE) -f CMakeFiles/ProcessImage.dir/build.make CMakeFiles/ProcessImage.dir/clean
-.PHONY : CMakeFiles/ProcessImage.dir/clean
+.PHONY : general
 
 # clean rule for target.
-clean: CMakeFiles/ProcessImage.dir/clean
+CMakeFiles/general.dir/clean:
+	$(MAKE) -f CMakeFiles/general.dir/build.make CMakeFiles/general.dir/clean
+.PHONY : CMakeFiles/general.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/general.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/canny.dir
+
+# All Build rule for target.
+CMakeFiles/canny.dir/all:
+	$(MAKE) -f CMakeFiles/canny.dir/build.make CMakeFiles/canny.dir/depend
+	$(MAKE) -f CMakeFiles/canny.dir/build.make CMakeFiles/canny.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles --progress-num=1,2 "Built target canny"
+.PHONY : CMakeFiles/canny.dir/all
+
+# Include target in all.
+all: CMakeFiles/canny.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/canny.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/canny.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 0
+.PHONY : CMakeFiles/canny.dir/rule
+
+# Convenience name for target.
+canny: CMakeFiles/canny.dir/rule
+
+.PHONY : canny
+
+# clean rule for target.
+CMakeFiles/canny.dir/clean:
+	$(MAKE) -f CMakeFiles/canny.dir/build.make CMakeFiles/canny.dir/clean
+.PHONY : CMakeFiles/canny.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/canny.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/morphology.dir
+
+# All Build rule for target.
+CMakeFiles/morphology.dir/all:
+	$(MAKE) -f CMakeFiles/morphology.dir/build.make CMakeFiles/morphology.dir/depend
+	$(MAKE) -f CMakeFiles/morphology.dir/build.make CMakeFiles/morphology.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles --progress-num=9,10 "Built target morphology"
+.PHONY : CMakeFiles/morphology.dir/all
+
+# Include target in all.
+all: CMakeFiles/morphology.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/morphology.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/morphology.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 0
+.PHONY : CMakeFiles/morphology.dir/rule
+
+# Convenience name for target.
+morphology: CMakeFiles/morphology.dir/rule
+
+.PHONY : morphology
+
+# clean rule for target.
+CMakeFiles/morphology.dir/clean:
+	$(MAKE) -f CMakeFiles/morphology.dir/build.make CMakeFiles/morphology.dir/clean
+.PHONY : CMakeFiles/morphology.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/morphology.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/contours.dir
+
+# All Build rule for target.
+CMakeFiles/contours.dir/all:
+	$(MAKE) -f CMakeFiles/contours.dir/build.make CMakeFiles/contours.dir/depend
+	$(MAKE) -f CMakeFiles/contours.dir/build.make CMakeFiles/contours.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles --progress-num=3,4 "Built target contours"
+.PHONY : CMakeFiles/contours.dir/all
+
+# Include target in all.
+all: CMakeFiles/contours.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/contours.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/contours.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 0
+.PHONY : CMakeFiles/contours.dir/rule
+
+# Convenience name for target.
+contours: CMakeFiles/contours.dir/rule
+
+.PHONY : contours
+
+# clean rule for target.
+CMakeFiles/contours.dir/clean:
+	$(MAKE) -f CMakeFiles/contours.dir/build.make CMakeFiles/contours.dir/clean
+.PHONY : CMakeFiles/contours.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/contours.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/driver.dir
+
+# All Build rule for target.
+CMakeFiles/driver.dir/all:
+	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/depend
+	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles --progress-num=5,6 "Built target driver"
+.PHONY : CMakeFiles/driver.dir/all
+
+# Include target in all.
+all: CMakeFiles/driver.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/driver.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/driver.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles 0
+.PHONY : CMakeFiles/driver.dir/rule
+
+# Convenience name for target.
+driver: CMakeFiles/driver.dir/rule
+
+.PHONY : driver
+
+# clean rule for target.
+CMakeFiles/driver.dir/clean:
+	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/clean
+.PHONY : CMakeFiles/driver.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/driver.dir/clean
 
 .PHONY : clean
 

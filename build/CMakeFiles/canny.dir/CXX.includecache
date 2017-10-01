@@ -6,20 +6,14 @@
 
 #IncludeRegexTransform: 
 
-/media/siddu/data1001/Work/OCR-preprocessing/main.cpp
-iostream
--
-string
--
-opencv2/core.hpp
--
+/media/siddu/data1001/Work/OCR-preprocessing/canny.cpp
+opencv2/imgproc/imgproc.hpp
+/media/siddu/data1001/Work/OCR-preprocessing/opencv2/imgproc/imgproc.hpp
 opencv2/highgui/highgui.hpp
 /media/siddu/data1001/Work/OCR-preprocessing/opencv2/highgui/highgui.hpp
-opencv2/imgproc/imgproc.hpp
+stdlib.h
 -
 stdio.h
--
-stdlib.h
 -
 
 /usr/local/include/opencv/cxcore.h
