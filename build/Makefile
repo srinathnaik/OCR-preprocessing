@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named driver
+
+# Build rule for target.
+driver: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 driver
+.PHONY : driver
+
+# fast build rule for target.
+driver/fast:
+	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/build
+.PHONY : driver/fast
+
+#=============================================================================
 # Target rules for targets named general
 
 # Build rule for target.
@@ -150,6 +163,19 @@ morphology/fast:
 .PHONY : morphology/fast
 
 #=============================================================================
+# Target rules for targets named binarise
+
+# Build rule for target.
+binarise: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 binarise
+.PHONY : binarise
+
+# fast build rule for target.
+binarise/fast:
+	$(MAKE) -f CMakeFiles/binarise.dir/build.make CMakeFiles/binarise.dir/build
+.PHONY : binarise/fast
+
+#=============================================================================
 # Target rules for targets named contours
 
 # Build rule for target.
@@ -162,18 +188,32 @@ contours/fast:
 	$(MAKE) -f CMakeFiles/contours.dir/build.make CMakeFiles/contours.dir/build
 .PHONY : contours/fast
 
-#=============================================================================
-# Target rules for targets named driver
+media/siddu/data1001/Work/OCR-preprocessing/binarise.o: media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.o
 
-# Build rule for target.
-driver: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 driver
-.PHONY : driver
+.PHONY : media/siddu/data1001/Work/OCR-preprocessing/binarise.o
 
-# fast build rule for target.
-driver/fast:
-	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/build
-.PHONY : driver/fast
+# target to build an object file
+media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.o:
+	$(MAKE) -f CMakeFiles/binarise.dir/build.make CMakeFiles/binarise.dir/media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.o
+.PHONY : media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.o
+
+media/siddu/data1001/Work/OCR-preprocessing/binarise.i: media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.i
+
+.PHONY : media/siddu/data1001/Work/OCR-preprocessing/binarise.i
+
+# target to preprocess a source file
+media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.i:
+	$(MAKE) -f CMakeFiles/binarise.dir/build.make CMakeFiles/binarise.dir/media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.i
+.PHONY : media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.i
+
+media/siddu/data1001/Work/OCR-preprocessing/binarise.s: media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.s
+
+.PHONY : media/siddu/data1001/Work/OCR-preprocessing/binarise.s
+
+# target to generate assembly for a file
+media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.s:
+	$(MAKE) -f CMakeFiles/binarise.dir/build.make CMakeFiles/binarise.dir/media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.s
+.PHONY : media/siddu/data1001/Work/OCR-preprocessing/binarise.cpp.s
 
 media/siddu/data1001/Work/OCR-preprocessing/canny.o: media/siddu/data1001/Work/OCR-preprocessing/canny.cpp.o
 
@@ -316,13 +356,17 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... driver"
 	@echo "... edit_cache"
 	@echo "... general"
 	@echo "... rebuild_cache"
 	@echo "... canny"
 	@echo "... morphology"
+	@echo "... binarise"
 	@echo "... contours"
-	@echo "... driver"
+	@echo "... media/siddu/data1001/Work/OCR-preprocessing/binarise.o"
+	@echo "... media/siddu/data1001/Work/OCR-preprocessing/binarise.i"
+	@echo "... media/siddu/data1001/Work/OCR-preprocessing/binarise.s"
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/canny.o"
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/canny.i"
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/canny.s"

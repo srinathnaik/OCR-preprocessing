@@ -1,7 +1,8 @@
+/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/driver.dir
 /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/edit_cache.dir
 /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/general.dir
 /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/rebuild_cache.dir
 /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/canny.dir
 /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/morphology.dir
+/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/binarise.dir
 /media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/contours.dir
-/media/siddu/data1001/Work/OCR-preprocessing/build/CMakeFiles/driver.dir

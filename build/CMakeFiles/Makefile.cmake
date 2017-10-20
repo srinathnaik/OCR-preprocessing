@@ -48,9 +48,10 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/driver.dir/DependInfo.cmake"
   "CMakeFiles/general.dir/DependInfo.cmake"
   "CMakeFiles/canny.dir/DependInfo.cmake"
   "CMakeFiles/morphology.dir/DependInfo.cmake"
+  "CMakeFiles/binarise.dir/DependInfo.cmake"
   "CMakeFiles/contours.dir/DependInfo.cmake"
-  "CMakeFiles/driver.dir/DependInfo.cmake"
   )
