@@ -1,109 +1,126 @@
 #include <iostream>
-#include <string>
-#include <opencv2/core.hpp>
-#include "opencv2/highgui/highgui.hpp"
-#include <opencv2/imgproc/imgproc.hpp>
-#include <stdio.h>
-#include <stdlib.h>
-
+#include "driver.cpp"
 using namespace cv;
 using namespace std;
 
-int main(int argc, const char** argv)
+void cut(int argc, const char** argv)
 {
 
 	RNG rng(12345);
-	/* Read the image */
-	if(argc<1) {cout<<"No image given"<<endl;return -1;}
-	string filename = argv[1];
-	cout<<filename<<endl;
-	
-	Mat img = imread(filename, 0);
-	if (img.empty()) {cout << "Error : Image cannot be loaded..!!" << endl;return -1;}
+	string filename;bool display;
+	display=0;filename="";
+	if(argc>1){if(argv[2]=="1"){display=1;}; argc--;}
+	if(argc>0){filename=argv[1];argc--;}
 
-	/* Process the image */
-		Mat final1, final;
+	/*read the image */
+		if(filename=="") {cout<<"No image given"<<endl;return ;}
+		cout<<filename<<endl;
+		Mat img = imread(filename, 0);
+		if (img.empty()) {cout << "Error : Image cannot be loaded..!!" << endl;return ;}
+		filename = filename.substr(0,filename.length()-4);
 
+	/*binarise*/
+		Mat * s1 = new Mat();
+		binarise(&img,s1);
+		if(display)show(s1,"I1 : binarised");
 
-		namedWindow("InitialImage", WINDOW_NORMAL);
-		// namedWindow("GaussianBlur", WINDOW_NORMAL);
-		namedWindow("FinalImage", WINDOW_NORMAL);
-		/* binarisation */
-		// GaussianBlur(img, final1, Size_<int>(1,1), 0, 0, BORDER_DEFAULT );
-		// imshow("GaussianBlur", final1);
-		adaptiveThreshold(img, final, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, 11, 0);
+	/*transform*/
+		Mat * s2 = new Mat();
+		morphological_transform(s1,s2,4);
+		if(display)show(s2,"I2 : transformed");
 
-		imshow("InitialImage", img);
-		imshow("FinalImage", final);
-		waitKey(0); //wait infinite time for a keypress
+	/*countour bound*/
+		Mat s3 = draw_contours(s2);
+		if(display)show(&s3,"I3 : contours");
 
-		/* splitting the image into two parts */
-			/* use hough line transform to detect the lines */
-		// Mat canny_output, cdst;
-		// Canny(img, canny_output, 50, 200, 3);
-		// namedWindow("canny", WINDOW_NORMAL);
-		// imshow("canny", canny_output);
- 	// 	cvtColor(canny_output, cdst, CV_GRAY2BGR);
-		// #if 0
-		 //  vector<Vec2f> lines;
-		 //  HoughLines(dst, lines, 1, CV_PI/180, 500, 0, 0 );
+	/*adjust rotation of image*/
+		double ang = rotate_angle(&s3);
+		// get rotation matrix for rotating the image around its center
+		cv::Point2f center(s3.cols/2.0, s3.rows/2.0);
+		cv::Mat rot = cv::getRotationMatrix2D(center, ang, 1.0);
+		// determine bounding rectangle
+		cv::Rect bbox = cv::RotatedRect(center,s3.size(), ang).boundingRect();
+		// adjust transformation matrix
+		rot.at<double>(0,2) += bbox.width/2.0 - center.x;
+		rot.at<double>(1,2) += bbox.height/2.0 - center.y;
 
-		 //  for( size_t i = 0; i < lines.size(); i++ )
-		 //  {
-		 //     float rho = lines[i][0], theta = lines[i][1];
-		 //     Point pt1, pt2;
-		 //     double a = cos(theta), b = sin(theta);
-		 //     double x0 = a*rho, y0 = b*rho;
-		 //     pt1.x = cvRound(x0 + 1000*(-b));
-		 //     pt1.y = cvRound(y0 + 1000*(a));
-		 //     pt2.x = cvRound(x0 - 1000*(-b));
-		 //     pt2.y = cvRound(y0 - 1000*(a));
-		 //     line( cdst, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
-		 //  }
-		 // #else
-		  // vector<Vec4i> lines;
-		  // HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
-		  // for( size_t i = 0; i < lines.size(); i++ )
-		  // {
-		  //   Vec4i l = lines[i];
-		//   //   line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
-		//   // }
-		//  #endif
+		cv::Mat img1;
+		cv::warpAffine(*s2, img1, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab[5]);
+		cv::warpAffine(img, img, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab[6]); // original image
+		// cv::warpAffine(s3, img1, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,Scalar(0, 0, 0));
+		if(display)show(&img1,"rotated image");
 
-		// /* contours */
-		// vector<vector<Point> > contours;
-  // 		vector<Vec4i> hierarchy;
+	if(display)waitKey(0);
+	if(display)destroyWindow("I1 : binarised");
+	if(display)destroyWindow("I2 : transformed");
+	if(display)destroyWindow("I3 : contours");
+	if(display)destroyWindow("rotated image");
+	// show(&img1,"rotated image");
 
-  // 		/// Find contours
-		//   findContours( canny_output, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
+	/*draw contours for the rotated image*/
+		s3 = draw_contours(&img1);
+		if(display)show(&s3,"II1 : contours");
 
-		//   /// Draw contours
-		//   Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
-		//   for( int i = 0; i< contours.size(); i++ )
-		//      {
-		//        Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-		//        drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, Point() );
-		//      }
+		// draw_contours1(&img1);
 
-		  /// Show in a window
-		  // namedWindow( "Contours", WINDOW_NORMAL );
-		  // imshow( "Contours", drawing );
+	/*detect mid-line*/
+		LINE midline = detect_midline(&s3);
 
+	/*adjust rotation of image again according to midline*/
+		Mat img2;
+		ang = (90.0+midline.slope);
+		// get rotation matrix for rotating the image around its center
+		center.x=midline.pt.x; center.y=midline.pt.y;
+		rot = cv::getRotationMatrix2D(center, ang, 1.0);
+		// determine bounding rectangle
+		bbox = cv::RotatedRect(center,img1.size(), ang).boundingRect();
 
+		cv::warpAffine(img1, img2, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab[5]);
+		cv::warpAffine(img, img, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab[6]);
+		
+		/*draw mid line now*/
+		Point pt1, pt2;float theta =  90 * CV_PI/180;
+		double a = cos(theta), b = sin(theta);
+		double x0 = midline.pt.x , y0 = midline.pt.y;
+		pt1.x = x0- 5000*(a);
+		pt1.y = y0- 5000*(b);
+		pt2.x = cvRound(x0 + 5000*(a));
+		pt2.y = cvRound(y0 + 5000*(b));
+		line( img2, pt1, pt2, colorTab[0], 3, 8);
 
-		 // namedWindow("source", WINDOW_NORMAL);
-		 // imshow("source", img);
-		 // namedWindow("detected lines", WINDOW_NORMAL);
-		 // imshow("detected lines", cdst);
+		show(&img2,"final rotated image");
 
-		 // waitKey();
+	/*crop the image*/
+		int PADDING = 8;
+		Mat left,leftbm,right,rightbm;
+		int WIDTH = img2.cols-(x0+PADDING);
+		int HEIGHT = img2.rows;
+		cout<<" right crop part "<<x0+PADDING<<" 0 "<<WIDTH<<" "<<HEIGHT<<endl;
+		right = img(Rect(x0+PADDING,0,WIDTH,HEIGHT));
+		rightbm = img2(Rect(x0+PADDING,0,WIDTH,HEIGHT));
+		show(&right,"right part");
 
+		imwrite(filename+"_r.png",right);
 
-	/* Display result */
-	destroyWindow("InitialImage");
-	destroyWindow("GaussianBlur");
-	destroyWindow("FinalImage");
+		WIDTH = x0-PADDING;
+		cout<<" left crop part 0 0 "<<WIDTH<<" "<<HEIGHT<<endl;
+		left = img(Rect(0,0,WIDTH,HEIGHT));
+		leftbm = img2(Rect(0,0,WIDTH,HEIGHT));
+		show(&left,"left part");
 
+		imwrite(filename+"_l.png",left);
+		waitKey(0);
+		destroyWindow("rotated image");
+		if(display)destroyWindow("II1 : contours");
+		destroyWindow("final rotated image");
+		destroyWindow("right part");
 
-return 0;
+	/*black-model of left and right parts*/
+return ;
+}
+
+int main(int argc, const char** argv)
+{
+	cut(argc,argv);
+	return 0;
 }

@@ -111,30 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named driver
+# Target rules for targets named main
 
 # Build rule for target.
-driver: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 driver
-.PHONY : driver
+main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 main
+.PHONY : main
 
 # fast build rule for target.
-driver/fast:
-	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/build
-.PHONY : driver/fast
-
-#=============================================================================
-# Target rules for targets named general
-
-# Build rule for target.
-general: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 general
-.PHONY : general
-
-# fast build rule for target.
-general/fast:
-	$(MAKE) -f CMakeFiles/general.dir/build.make CMakeFiles/general.dir/build
-.PHONY : general/fast
+main/fast:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
 
 #=============================================================================
 # Target rules for targets named canny
@@ -269,40 +256,13 @@ media/siddu/data1001/Work/OCR-preprocessing/contours.cpp.s:
 	$(MAKE) -f CMakeFiles/contours.dir/build.make CMakeFiles/contours.dir/media/siddu/data1001/Work/OCR-preprocessing/contours.cpp.s
 .PHONY : media/siddu/data1001/Work/OCR-preprocessing/contours.cpp.s
 
-media/siddu/data1001/Work/OCR-preprocessing/driver.o: media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.o
-
-.PHONY : media/siddu/data1001/Work/OCR-preprocessing/driver.o
-
-# target to build an object file
-media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.o:
-	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.o
-.PHONY : media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.o
-
-media/siddu/data1001/Work/OCR-preprocessing/driver.i: media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.i
-
-.PHONY : media/siddu/data1001/Work/OCR-preprocessing/driver.i
-
-# target to preprocess a source file
-media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.i:
-	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.i
-.PHONY : media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.i
-
-media/siddu/data1001/Work/OCR-preprocessing/driver.s: media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.s
-
-.PHONY : media/siddu/data1001/Work/OCR-preprocessing/driver.s
-
-# target to generate assembly for a file
-media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.s:
-	$(MAKE) -f CMakeFiles/driver.dir/build.make CMakeFiles/driver.dir/media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.s
-.PHONY : media/siddu/data1001/Work/OCR-preprocessing/driver.cpp.s
-
 media/siddu/data1001/Work/OCR-preprocessing/main.o: media/siddu/data1001/Work/OCR-preprocessing/main.cpp.o
 
 .PHONY : media/siddu/data1001/Work/OCR-preprocessing/main.o
 
 # target to build an object file
 media/siddu/data1001/Work/OCR-preprocessing/main.cpp.o:
-	$(MAKE) -f CMakeFiles/general.dir/build.make CMakeFiles/general.dir/media/siddu/data1001/Work/OCR-preprocessing/main.cpp.o
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/media/siddu/data1001/Work/OCR-preprocessing/main.cpp.o
 .PHONY : media/siddu/data1001/Work/OCR-preprocessing/main.cpp.o
 
 media/siddu/data1001/Work/OCR-preprocessing/main.i: media/siddu/data1001/Work/OCR-preprocessing/main.cpp.i
@@ -311,7 +271,7 @@ media/siddu/data1001/Work/OCR-preprocessing/main.i: media/siddu/data1001/Work/OC
 
 # target to preprocess a source file
 media/siddu/data1001/Work/OCR-preprocessing/main.cpp.i:
-	$(MAKE) -f CMakeFiles/general.dir/build.make CMakeFiles/general.dir/media/siddu/data1001/Work/OCR-preprocessing/main.cpp.i
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/media/siddu/data1001/Work/OCR-preprocessing/main.cpp.i
 .PHONY : media/siddu/data1001/Work/OCR-preprocessing/main.cpp.i
 
 media/siddu/data1001/Work/OCR-preprocessing/main.s: media/siddu/data1001/Work/OCR-preprocessing/main.cpp.s
@@ -320,7 +280,7 @@ media/siddu/data1001/Work/OCR-preprocessing/main.s: media/siddu/data1001/Work/OC
 
 # target to generate assembly for a file
 media/siddu/data1001/Work/OCR-preprocessing/main.cpp.s:
-	$(MAKE) -f CMakeFiles/general.dir/build.make CMakeFiles/general.dir/media/siddu/data1001/Work/OCR-preprocessing/main.cpp.s
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/media/siddu/data1001/Work/OCR-preprocessing/main.cpp.s
 .PHONY : media/siddu/data1001/Work/OCR-preprocessing/main.cpp.s
 
 media/siddu/data1001/Work/OCR-preprocessing/morphology.o: media/siddu/data1001/Work/OCR-preprocessing/morphology.cpp.o
@@ -356,9 +316,8 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... driver"
 	@echo "... edit_cache"
-	@echo "... general"
+	@echo "... main"
 	@echo "... rebuild_cache"
 	@echo "... canny"
 	@echo "... morphology"
@@ -373,9 +332,6 @@ help:
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/contours.o"
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/contours.i"
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/contours.s"
-	@echo "... media/siddu/data1001/Work/OCR-preprocessing/driver.o"
-	@echo "... media/siddu/data1001/Work/OCR-preprocessing/driver.i"
-	@echo "... media/siddu/data1001/Work/OCR-preprocessing/driver.s"
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/main.o"
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/main.i"
 	@echo "... media/siddu/data1001/Work/OCR-preprocessing/main.s"
