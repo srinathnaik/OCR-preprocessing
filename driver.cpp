@@ -4,22 +4,23 @@
 #include <opencv2/core.hpp>
 #include "opencv2/highgui/highgui.hpp"
 #include <opencv2/imgproc/imgproc.hpp>
-#include <stdio.h>
-#include <stdlib.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+#include <map>
 
 using namespace cv;
 using namespace std;
 RNG rng(12345);
-Scalar colorTab[] =
-	{
-		Scalar(0, 0, 255),	//0->red
-		Scalar(0,255,0),	//1->green	
-		Scalar(255,0,0),	//2->blue
-		Scalar(255,0,255),	//3->
-		Scalar(0,255,255),	//4->	
-		Scalar(255,255,255),//5->white
-		Scalar(0,0,0)		//6-black
-	};
+map <string,Scalar> colorTab=
+{
+	{ "name"	, Scalar(0, 0, 255)},
+	{ "red" 	, Scalar(0, 0, 255)},
+	{ "green" 	, Scalar(0,255,0)},
+	{ "blue" 	, Scalar(255,0,0)},
+	{ "white" 	, Scalar(255,255,255)},
+	{ "black" 	, Scalar(0,0,0)},
+	{ "purple" 	, Scalar(255,0,255)}
+};
 
 class LINE
 {
@@ -85,7 +86,7 @@ Mat draw_contours(Mat * src)
 
 	int THICKNESS_OF_LINE=4;
 	int CONNECTEDNESS=8;
-	drawContours( dst, contours,largest_contour_index, colorTab[5], THICKNESS_OF_LINE, CONNECTEDNESS, hierarchy,1);
+	drawContours( dst, contours,largest_contour_index, colorTab["white"], THICKNESS_OF_LINE, CONNECTEDNESS, hierarchy,1);
 
 	return dst;
 }
@@ -112,10 +113,10 @@ double rotate_angle(Mat *src)
 		angle = (angle*180)/CV_PI;
 
 		/*put the angle into one of the 4 buckets*/
-		if(0<=angle && angle<=45){A[0].push_back(angle);if(angle!=0)line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab[0], 3, 8);}
-		else if(45<angle && angle<90){A[1].push_back(angle);line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab[1], 3, 8);}
-		else if(-90<=angle && angle<-45){A[2].push_back(angle);if(angle!=-90)line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab[2], 3, 8);}
-		else if(angle>=-45 && angle<0){A[3].push_back(angle);line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab[3], 3, 8);}
+		if(0<=angle && angle<=45){A[0].push_back(angle);if(angle!=0)line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab["red"], 3, 8);}
+		else if(45<angle && angle<90){A[1].push_back(angle);line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab["green"], 3, 8);}
+		else if(-90<=angle && angle<-45){A[2].push_back(angle);if(angle!=-90)line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab["blue"], 3, 8);}
+		else if(angle>=-45 && angle<0){A[3].push_back(angle);line( cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab["purple"], 3, 8);}
 		// else cout<<"different : "<<angle<<endl;
 	}
 
@@ -182,11 +183,11 @@ LINE detect_midline(Mat * src)
 		Point3_<float> my_point(l[0],l[2],angle);
 		if(-5<=angle && angle<=5)
 		{
-			x_lines.push_back(my_point);line(cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab[0], 3, 8);	
+			x_lines.push_back(my_point);line(cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab["red"], 3, 8);	
 		}
 		else if((85<=angle && angle<=90)||(-90<=angle && angle<=-85))
 		{
-			y_lines.push_back(my_point);line(cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab[1], 3, 8);
+			y_lines.push_back(my_point);line(cdst, Point(l[0], l[1]), Point(l[2], l[3]), colorTab["green"], 3, 8);
 			y_avg+=l[1]+l[3];
 		}
 	}
@@ -235,9 +236,50 @@ LINE detect_midline(Mat * src)
 	pt1.y = y0- 5000*(b);
 	pt2.x = cvRound(x0 + 5000*(a));
 	pt2.y = cvRound(y0 + 5000*(b));
-	line( cdst, pt1, pt2, colorTab[3], 3, CV_AA);
+	line( cdst, pt1, pt2, colorTab["purple"], 3, CV_AA);
 	show(&cdst,"II2 : mid-line");
 
 	LINE midline(x0,y0,slp);
 	return midline;
+}
+
+void getBinMask( const Mat& comMask, Mat& binMask )
+{
+    if( comMask.empty() || comMask.type()!=CV_8UC1 )
+        CV_Error( Error::StsBadArg, "comMask is empty or has incorrect type (not CV_8UC1)" );
+    if( binMask.empty() || binMask.rows!=comMask.rows || binMask.cols!=comMask.cols )
+        binMask.create( comMask.size(), CV_8UC1 );
+    binMask = comMask & 1;
+}
+void setRectInMask(Mat & mask, Rect rect)
+{
+    CV_Assert( !mask.empty() );
+    mask.setTo( GC_BGD );
+    // rect.x = max(0, rect.x);
+    // rect.y = max(0, rect.y);
+    // rect.width = min(rect.width, image->cols-rect.x);
+    // rect.height = min(rect.height, image->rows-rect.y);
+    (mask(rect)).setTo( Scalar(GC_PR_FGD) );
+}
+Mat graphcut_mask(Mat src)
+{
+	// define bounding rectangle
+	int PAD = 4;
+	// Rect rectangle(17,23,3061,4069);
+	Rect rectangle(PAD,PAD,src.cols-2*PAD,src.rows-2*PAD);
+
+	Mat result; // segmentation result (4 possible values)
+	Mat bgModel,fgModel; // the models (internally used)
+
+	// cout<<"rectangle .. "<<rectangle.x<<" "<<rectangle.y<<" "<<rectangle.width<<" "<<rectangle.height<<endl;
+	result.create( src.size(), CV_8UC1);
+	setRectInMask(result, rectangle);
+	
+	grabCut( src, result, rectangle, bgModel, fgModel, 1, GC_INIT_WITH_RECT );
+	
+	Mat binMask,res;
+	getBinMask( result, binMask );
+	Mat white((src).size(),CV_8UC1,cv::Scalar(255,255,255));
+	white.copyTo( res, binMask );
+	return res;
 }

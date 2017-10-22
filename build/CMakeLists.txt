@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project( ProcessImage )
+set (CMAKE_CXX_STANDARD 11)
 find_package( OpenCV REQUIRED )
 add_executable( binarise ../binarise.cpp )
 add_executable( main ../main.cpp )

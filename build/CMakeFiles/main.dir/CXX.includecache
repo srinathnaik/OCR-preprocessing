@@ -19,9 +19,7 @@ opencv2/highgui/highgui.hpp
 /media/siddu/data1001/Work/OCR-preprocessing/opencv2/highgui/highgui.hpp
 opencv2/imgproc/imgproc.hpp
 -
-stdio.h
--
-stdlib.h
+map
 -
 
 /media/siddu/data1001/Work/OCR-preprocessing/main.cpp

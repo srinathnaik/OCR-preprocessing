@@ -5,20 +5,26 @@ using namespace std;
 
 void cut(int argc, const char** argv)
 {
-
+	Mat mask,imgclr, img, imgbin;
 	RNG rng(12345);
 	string filename;bool display;
 	display=0;filename="";
 	if(argc>1){if(argv[2]=="1"){display=1;}; argc--;}
 	if(argc>0){filename=argv[1];argc--;}
 
-	/*read the image */
+	/*read the image*/
 		if(filename=="") {cout<<"No image given"<<endl;return ;}
 		cout<<filename<<endl;
-		Mat img = imread(filename, 0);
-		if (img.empty()) {cout << "Error : Image cannot be loaded..!!" << endl;return ;}
+		imgclr = imread(filename, 1);
+		if (imgclr.empty()) {cout << "Error : Image cannot be loaded..!!" << endl;return ;}
 		filename = filename.substr(0,filename.length()-4);
+		cvtColor(imgclr, img, CV_BGR2GRAY);
 
+	/*get foreground mask*/
+		mask = graphcut_mask(imgclr);
+		cout<<" mask generated "<<endl;
+
+	#if 1
 	/*binarise*/
 		Mat * s1 = new Mat();
 		binarise(&img,s1);
@@ -45,8 +51,9 @@ void cut(int argc, const char** argv)
 		rot.at<double>(1,2) += bbox.height/2.0 - center.y;
 
 		cv::Mat img1;
-		cv::warpAffine(*s2, img1, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab[5]);
-		cv::warpAffine(img, img, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab[6]); // original image
+		cv::warpAffine(*s2, img1, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab["white"]);
+		cv::warpAffine(img, img, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab["black"]); // original image
+		cv::warpAffine(mask, mask, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab["black"]); // mask
 		// cv::warpAffine(s3, img1, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,Scalar(0, 0, 0));
 		if(display)show(&img1,"rotated image");
 
@@ -75,8 +82,10 @@ void cut(int argc, const char** argv)
 		// determine bounding rectangle
 		bbox = cv::RotatedRect(center,img1.size(), ang).boundingRect();
 
-		cv::warpAffine(img1, img2, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab[5]);
-		cv::warpAffine(img, img, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab[6]);
+		cv::warpAffine(img1, img2, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab["white"]);
+		cv::warpAffine(img, img, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab["black"]); // original image
+		cv::warpAffine(mask, mask, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,colorTab["black"]); // mask
+		// cv::warpAffine(img, img, rot, bbox.size(),INTER_LINEAR,BORDER_CONSTANT,bgcolour); // original image
 		
 		/*draw mid line now*/
 		Point pt1, pt2;float theta =  90 * CV_PI/180;
@@ -86,36 +95,44 @@ void cut(int argc, const char** argv)
 		pt1.y = y0- 5000*(b);
 		pt2.x = cvRound(x0 + 5000*(a));
 		pt2.y = cvRound(y0 + 5000*(b));
-		line( img2, pt1, pt2, colorTab[0], 3, 8);
+		line( img2, pt1, pt2, colorTab["red"], 3, 8);
 
 		show(&img2,"final rotated image");
+		show(&mask,"grab cut mask");
+		binarise(&img,&imgbin);
+		Mat maskedbin;
+		imgbin.copyTo(maskedbin,mask);
+
 
 	/*crop the image*/
-		int PADDING = 8;
+		int PADDING = 10;
 		Mat left,leftbm,right,rightbm;
 		int WIDTH = img2.cols-(x0+PADDING);
 		int HEIGHT = img2.rows;
 		cout<<" right crop part "<<x0+PADDING<<" 0 "<<WIDTH<<" "<<HEIGHT<<endl;
 		right = img(Rect(x0+PADDING,0,WIDTH,HEIGHT));
-		rightbm = img2(Rect(x0+PADDING,0,WIDTH,HEIGHT));
-		show(&right,"right part");
+		rightbm = maskedbin(Rect(x0+PADDING,0,WIDTH,HEIGHT));
+		show(&rightbm,"right part");
 
-		imwrite(filename+"_r.png",right);
+		// imwrite(filename+"_r.png",right);
 
 		WIDTH = x0-PADDING;
 		cout<<" left crop part 0 0 "<<WIDTH<<" "<<HEIGHT<<endl;
 		left = img(Rect(0,0,WIDTH,HEIGHT));
-		leftbm = img2(Rect(0,0,WIDTH,HEIGHT));
-		show(&left,"left part");
+		leftbm = maskedbin(Rect(0,0,WIDTH,HEIGHT));
+		show(&leftbm,"left part");
 
-		imwrite(filename+"_l.png",left);
+		// imwrite(filename+"_l.png",left);
 		waitKey(0);
 		destroyWindow("rotated image");
 		if(display)destroyWindow("II1 : contours");
 		destroyWindow("final rotated image");
 		destroyWindow("right part");
+		destroyWindow("grab cut result");
 
+	#else
 	/*black-model of left and right parts*/
+	#endif
 return ;
 }
 
